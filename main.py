@@ -21,7 +21,18 @@ import wolframalpha
 import geocoder
 
 from ecapture import ecapture as ec
+from functions import funcA, funcB, funcC
+'''
+PUrpose of this main file is to initialize and call the
+need instantiation for this program. Afterwards it will run a loop
+where it constantly listens for input, and then makes calls into the
+functions.py file where all of the function logic will lie.
+All of the function logic will be separated by methods as finely as possible
+and paired with perfect logging.
 
+Mkae another file for running the voice logic and settings.
+Basically extrapolate all of your functions into as many pieces.
+'''
 # speak info
 
 engine = tts.init('sapi5')  # nsss for mac
@@ -65,8 +76,12 @@ def main():
     speak(getCommand(getAudio()))
 
 # return information from command
+'''
+TODO: 1. ioen file at start of code
+      2. make new function for each command
+      3. use SMMRY api for wiki
+'''
 def getCommand(command):
-    str_command = command.lower()
     command = command.lower().split()
 
     '''
@@ -76,13 +91,15 @@ def getCommand(command):
         data = cities.read()
         cities = data.splitlines()
         countries = open("countries.txt", "r").read()
+        countries = countries.splitlines()
         if "weather" in command:
             currentCity = currentLocation[0]
-            print(command)
+            # print("Command: " + str(command))
             for possibleCity in command:
                 if possibleCity in cities:
                     currentCity = possibleCity
                     return getWeather(currentCity)
+            # print("Commands: " + str(command))
             for possibleCountry in command:
                 if possibleCountry in countries:
                     currentCountry = possibleCountry
@@ -96,10 +113,14 @@ def getCommand(command):
     with open("countries.txt", "r") as countries:
         data = countries.read()
         countries = data.splitlines()
+        cities = open("cities.txt", "r").read().splitlines()
         if "time" in command:
             for country in command:
                 if country in countries:
-                    return getTime(country)
+                    return getTime(1, country)
+            for city in cities:
+                if city in cities:
+                    return getTime(0, city)
             return getTime("Canada")
 
     '''
@@ -167,14 +188,17 @@ def getWeather(city):
     return weather
 
 
-def getTime(country):
+def getTime(id, country):
+    if (id is 0):  # this is a city
+    else if (id is 1): # this is a country
+
     capital = CountryInfo(country).capital()
     response = requests.get(getWeatherUrl + "&query=" + capital)
     response = response.json()
     hour = int(response['location']['localtime'][11:13])
     if hour > 12:
         hour = hour - 12
-    time = "The time in " + country + " right now is " + \
+    time = "The time in the capital of " + country + " right now is " + \
         str(hour) + " " +\
         response['location']['localtime'][14:]
     return time
