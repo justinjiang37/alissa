@@ -21,7 +21,14 @@ import wolframalpha
 import geocoder
 
 from ecapture import ecapture as ec
-from functions import funcA, funcB, funcC
+
+from functions import getWeather, getWeatherHelper
+from functions import getTime, getTimeHelper
+from functions import getInfo, getInfoHelper
+from functions import easterEggs
+
+from audioInit import speak, getAudio
+
 '''
 PUrpose of this main file is to initialize and call the
 need instantiation for this program. Afterwards it will run a loop
@@ -33,196 +40,22 @@ and paired with perfect logging.
 Mkae another file for running the voice logic and settings.
 Basically extrapolate all of your functions into as many pieces.
 '''
-# speak info
-
-engine = tts.init('sapi5')  # nsss for mac
-voices = engine.getProperty('voices')
-engine.setProperty('voice', voices[0].id)
-newVoiceRate = 135
-engine.setProperty('rate', newVoiceRate)
-
-with open("../../weatherstack_api.txt", "r") as apiKey:
-    key = apiKey.readlines()
-key = key[0]
-baseURL = "http://api.weatherstack.com/"
-getWeatherUrl = baseURL + "/current?access_key=" + key
-
-geocoder = geocoder.ip('me')
-geocoder = str(geocoder)
-geocoder = geocoder[24: -2]
-currentLocation = geocoder.split(", ")
-
-# speak text
-def speak(text):
-    engine.say(text)
-    engine.runAndWait()
-
-# recognizes mic input
-def getAudio():
-    r = sr.Recognizer()
-    with sr.Microphone() as source:
-        audio = r.listen(source)
-        said = ""
-
-        try:
-            said = r.recognize_google(audio)
-            print(said)
-        except Exception as e:
-            print("Expection: " + str(e))
-
-    return said
 
 def main():
     speak(getCommand(getAudio()))
 
-# return information from command
-'''
-TODO: 1. ioen file at start of code
-      2. make new function for each command
-      3. use SMMRY api for wiki
-'''
 def getCommand(command):
     command = command.lower().split()
 
-    '''
-    Weather
-    '''
-    with open("cities.txt", 'r', encoding='utf8') as cities:
-        data = cities.read()
-        cities = data.splitlines()
-        countries = open("countries.txt", "r").read()
-        countries = countries.splitlines()
-        if "weather" in command:
-            currentCity = currentLocation[0]
-            # print("Command: " + str(command))
-            for possibleCity in command:
-                if possibleCity in cities:
-                    currentCity = possibleCity
-                    return getWeather(currentCity)
-            # print("Commands: " + str(command))
-            for possibleCountry in command:
-                if possibleCountry in countries:
-                    currentCountry = possibleCountry
-                    currentCountry = CountryInfo(currentCountry)
-                    return getWeather(currentCountry.capital())
-            return getWeather(currentCity)
+    if "weather" in command:
+        return getWeather(command)
 
-    '''
-    Time
-    '''
-    with open("countries.txt", "r") as countries:
-        data = countries.read()
-        countries = data.splitlines()
-        cities = open("cities.txt", "r").read().splitlines()
-        if "time" in command:
-            for country in command:
-                if country in countries:
-                    return getTime(1, country)
-            for city in cities:
-                if city in cities:
-                    return getTime(0, city)
-            return getTime("Canada")
+    if "time" in command:
+        return getTime(command)
 
-    '''
-    alarm
-    '''
-    # if "set" in command or "alarm" in command:
-    #     # get th time user wants to set at in command
-    #     # call set alarm method
+    # easterEggs(command)
 
-
-    '''
-    Easter eggs
-    '''
-    # dad
-    if "i'm" in command:
-        dad = "Hi "
-        for i in range(1, len(command)):
-            dad += command[i]
-            dad + " "
-        dad += "I'm dad."
-        return dad
-    # love
-    if "i" in command and "love" in command and "you" in command:
-        i = 0
-        if i == 0:
-            return "I love you too!   mwah"
-        if i == 1:
-            return "Thanks! I think you're pretty cute too"
-        if i == 2:
-            return "I am yours forever"
-        if i == 3:
-            return "Sorry I already have a boy friend"
-        if i == 4:
-            return "Nah im out of your league"
-    if "who" in command and "your" in command and "boyfriend" in command:
-        return "Justin Jiang is my long eternal love"
-    # joke
-    if "tell" in command and "joke" in command:
-        return "Why did the chicken cross the road! to get to the other side! haha"
-    # CIA
-    # print("hi")
-    # if "CIA" in command and "listening" in command:
-    #     print("hi")
-    #     return "The CIA is always listening! Always"
-
-    '''
-    wiki
-    '''
-    keywords = ""
-    for i in command:
-        keywords += i
-        keywords + " "
-    return get_info(keywords)
-
-
-
-def getWeather(city):
-    response = requests.get(getWeatherUrl + "&query=" + city)
-    response = response.json()
-    weather = "In " + response['location']['name'] + \
-        ", " + response['location']['country'] + " it is currently " + \
-        str(response['current']['temperature']) + " degrees with a " + \
-        response['current']['weather_descriptions'][0] + "weather."
-
-    return weather
-
-
-def getTime(id, country):
-    if (id is 0):  # this is a city
-    else if (id is 1): # this is a country
-
-    capital = CountryInfo(country).capital()
-    response = requests.get(getWeatherUrl + "&query=" + capital)
-    response = response.json()
-    hour = int(response['location']['localtime'][11:13])
-    if hour > 12:
-        hour = hour - 12
-    time = "The time in the capital of " + country + " right now is " + \
-        str(hour) + " " +\
-        response['location']['localtime'][14:]
-    return time
-
-
-# def set_alarm(time):
-
-
-# def get_date():
-
-
-def get_info(keywords):
-    return(wikipedia.summary(keywords))
-
-# def get_youtube(keywords):
-
-
-def greeting():
-    hour = datetime.datetime.now().hour
-
-    speak("Hello Daisy, Good Morning")
-    print("Hello Justin, Good Morning")
-
-# def map():
+    return getInfo(command)
 
 if __name__ == "__main__":
     main()
