@@ -1,27 +1,3 @@
-import os
-import time
-import datetime
-from datetime import datetime
-import json
-import requests
-import pytz
-import random
-
-from countryinfo import CountryInfo
-import webbrowser
-import pyaudio
-import wave
-import speech_recognition as sr  # voice recognition
-import pyttsx3 as tts           # Text to Speech
-import wikipedia
-
-import subprocess
-import wolframalpha
-
-import geocoder
-
-from ecapture import ecapture as ec
-
 from functions import getWeather, getWeatherHelper
 from functions import getTime, getTimeHelper
 from functions import getInfo, getInfoHelper
@@ -58,4 +34,5 @@ def getCommand(command):
     return getInfo(command)
 
 if __name__ == "__main__":
+    # loadKeys()
     main()

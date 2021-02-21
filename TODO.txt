@@ -1,0 +1,5 @@
+TODO:
+    use https://sv443.net/jokeapi/v2/ for jokes
+    break up easter egg function so each can be called
+    Figure our how to use smmry on a block of text
+    Spotify api? maybe?

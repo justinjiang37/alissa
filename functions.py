@@ -16,14 +16,11 @@ import pyttsx3 as tts           # Text to Speech
 import wikipedia
 
 import subprocess
-import wolframalpha
 
 import geocoder
 
-from ecapture import ecapture as ec
-
 # init
-with open("../../weatherstack_api.txt", "r") as apiKey:
+with open("C:\\Users\\Justi\\OneDrive\\Desktop\\API keys\\weatherstack_api.txt", "r") as apiKey:
     key = apiKey.readlines()
 key = key[0]
 baseURL = "http://api.weatherstack.com/"
@@ -77,7 +74,7 @@ def getTime(command):
     return getTimeHelper(0, currentCity)
 
 def getTimeHelper(id, name):
-    if (id is 0):
+    if (id == 0):
         response = requests.get(getWeatherUrl + "&query=" + name)
         response = response.json()
         hour = int(response['location']['localtime'][11:13])
@@ -88,7 +85,7 @@ def getTimeHelper(id, name):
             response['location']['localtime'][14:]
         return time
 
-    elif (id is 1):
+    elif (id == 1):
         capital = CountryInfo(name).capital()
         response = requests.get(getWeatherUrl + "&query=" + capital)
         response = response.json()
