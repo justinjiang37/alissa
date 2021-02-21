@@ -6,6 +6,7 @@ import json
 import requests
 import pytz
 import random
+import re
 
 from countryinfo import CountryInfo
 import webbrowser
@@ -98,15 +99,32 @@ def getTimeHelper(id, name):
         return time
 
 
+def summarize(article):
+    final = ""
+    # get the number of sentences
+    sentence_break = ". "
+    numSentences = article.count(sentence_break)
+    article = re.sub("[\(\[].*?[\)\]]", "", article)
+    if numSentences <= 5:
+        return article
+    else:
+        sentences = article.split(". ")
+        for i in range(3):
+            final += sentences[i] + ". "
+    return final
+
 def getInfo(command):
     keywords = ""
     for i in command:
         keywords += i
         keywords + " "
-    return getInfoHelper(keywords)
+    return summarize(getInfoHelper(keywords))
 
 def getInfoHelper(keywords):
     return(wikipedia.summary(keywords))
+
+
+
 
 
 # def greeting():

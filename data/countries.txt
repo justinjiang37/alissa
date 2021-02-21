@@ -86,8 +86,7 @@ jordan
 kazakhstan
 kenya
 kiribati
-korea north
-korea south
+korea
 kosovo
 kuwait
 kyrgyzstan
@@ -183,7 +182,7 @@ uganda
 ukraine
 united arab emirates
 united kingdom
-united states of america
+united states
 uruguay
 uzbekistan
 vanuatu

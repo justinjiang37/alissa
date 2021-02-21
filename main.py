@@ -31,6 +31,7 @@ def getCommand(command):
 
     # easterEggs(command)
 
+    print("1")
     return getInfo(command)
 
 if __name__ == "__main__":

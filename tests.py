@@ -1,4 +1,5 @@
 import wikipedia
+import re
 
 # with open("C:\\Users\\Justi\\OneDrive\\Desktop\\API keys\\smmry_api.txt", "r") as apiKey:
 #     key = apiKey.readlines()
@@ -8,7 +9,7 @@ import wikipedia
 # def getIntro(article):
 #     return intro
 
-keywords = "Cristiano Ronaldo"
+keywords = "Leo Messi"
 
 intro = wikipedia.summary(keywords)
 
@@ -34,15 +35,20 @@ $text = "Your long text goes here...";
 # how to use with a block of text
 
 def summarize(article):
-
+    final = ""
     # get the number of sentences
     sentence_break = ". "
     numSentences = article.count(sentence_break)
     if numSentences <= 5:
-        return removeBrackets(article)
-    return numSentences
+        article = re.sub("[\(\[].*?[\)\]]", "", article)
+        return article
+    else:
+        article = re.sub("[\(\[].*?[\)\]]", "", article)
+        sentences = article.split(". ")
+        for i in range(3):
+            final += sentences[i] + ". "
+    return final
 
-def removeBrackets(article):
-    for i in range(le)
 
 print(summarize(intro))
+
