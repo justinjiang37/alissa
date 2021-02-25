@@ -9,13 +9,7 @@ import random
 import re
 
 from countryinfo import CountryInfo
-import webbrowser
-import pyaudio
-import wave
-import speech_recognition as sr  # voice recognition
-import pyttsx3 as tts           # Text to Speech
 import wikipedia
-
 import subprocess
 
 import geocoder
@@ -38,8 +32,6 @@ currentCountry = requests.get(
 cities = open("data/cities.txt", "r", encoding='utf8').read().splitlines()
 countries = open("data/countries.txt", "r",
                  encoding='utf8').read().splitlines()
-print(currentCity)
-print(currentCountry)
 
 def getWeather(command):
     for possibleCity in command:
@@ -104,6 +96,7 @@ def summarize(article):
     # get the number of sentences
     sentence_break = ". "
     numSentences = article.count(sentence_break)
+    # regex - regular expression
     article = re.sub("[\(\[].*?[\)\]]", "", article)
     if numSentences <= 5:
         return article

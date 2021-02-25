@@ -5,7 +5,7 @@ import pyttsx3 as tts           # Text to Speech
 
 engine = tts.init('sapi5')  # nsss for mac
 voices = engine.getProperty('voices')
-engine.setProperty('voice', voices[0].id)
+engine.setProperty('voice', voices[1].id)
 newVoiceRate = 135
 engine.setProperty('rate', newVoiceRate)
 
@@ -16,6 +16,7 @@ def speak(text):
 
 # recognizes mic input
 def getAudio():
+    print("Listening...")
     r = sr.Recognizer()
     with sr.Microphone() as source:
         audio = r.listen(source)
@@ -26,5 +27,4 @@ def getAudio():
             print(said)
         except Exception as e:
             print("Expection: " + str(e))
-    print(said)
     return said
