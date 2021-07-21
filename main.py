@@ -1,6 +1,7 @@
 from functions import getWeather, getWeatherHelper
 from functions import getTime, getTimeHelper
 from functions import getInfo, getInfoHelper
+from functions import setTimer
 from functions import easterEggs
 
 from audioInit import speak, getAudio
@@ -31,7 +32,8 @@ def getCommand(command):
 
     if "time" in command:
         return getTime(command)
-
+    if "timer" in command:
+        return setTimer(command)
     # easterEggs(command)
 
     return getInfo(command)

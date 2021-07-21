@@ -7,10 +7,12 @@ import requests
 import pytz
 import random
 import re
-
+from word2number import w2n
 from countryinfo import CountryInfo
 import wikipedia
 import subprocess
+
+from audioInit import speak, getAudio
 
 import geocoder
 
@@ -117,27 +119,80 @@ def getInfo(command):
             keywords += i
             keywords += " "
         return summarize(wikipedia.summary(keywords))
-    if ("")
+    if ("where" in command):
+        for word in command:
+            if (word == "where"):
+                command = command[command.index("where") + 2:]
+        keywords = ""
+        for i in command:
+            keywords += i
+            keywords += " "
+        return summarize(wikipedia.summary(keywords))
+    if ("how" in command):
+        for word in command:
+            if (word == "how"):
+                command = command[command.index("how") + 2:]
+        keywords = ""
+        for i in command:
+            keywords += i
+            keywords += " "
+        return summarize(wikipedia.summary(keywords))
+
 def getInfoHelper(keywords):
     return(wikipedia.summary(keywords))
 
+def setTimer(command):
+    units = [
+        "zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
+        "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
+        "sixteen", "seventeen", "eighteen", "nineteen",
+    ]
 
+    tens = ["", "", "twenty", "thirty", "forty",
+            "fifty", "sixty", "seventy", "eighty", "ninety"]
 
+    scales = ["hundred", "thousand", "million", "billion", "trillion"]
+    words = ["hour", "hours", "minutes","minute","second", "seconds"]
+    for i in command:
+        if i not in units or i not in tens or i not in scales or i not in words :
+            command.remove(i)
+    timeString = ""
+    for i in command:
+        timeString += i
+        timeString += " "
 
+    hours = 0
+    minutes = 0
+    seconds = 0
+    if "hour" in timeString :
+        hours = timeString[:timeString.find("hour")]
+        timeString = timeString[timeString.find("hour") + 4:]
+    if "hours" in timeString:
+        hours = timeString[:timeString.find("hours")]
+        timeString = timeString[timeString.find("hours") + 5:]
 
+    if "minutes" in timeString:
+        minutes = timeString[:timeString.find("minutes")]
+        timeString = timeString[timeString.find("minutes") + 7:]
+    if "minute" in timeString:
+        minutes = timeString[:timeString.find("minute")]
+        timeString = timeString[timeString.find("minute") + 6:]
 
+    if "seconds" in timeString:
+        seconds = timeString[:timeString.find("seconds")]
+        timeString = timeString[timeString.find("seconds") + 7:]
+    if "second" in timeString:
+        seconds = timeString[:timeString.find("second")]
+        timeString = timeString[timeString.find("second") + 6:]
 
+    finalTimeSeconds = 0
+    finalTimeSeconds += w2n.word_to_num(hours) * 3600
+    finalTimeSeconds += w2n.word_to_num(minutes) * 60
+    finalTimeSeconds += w2n.word_to_num(seconds)
 
-
-
-
-
-
-
-
-
-
-
+    for i in range (finalTimeSeconds):
+        time.sleep(1)
+    speak("times up ")
 
 
 # def greeting():
