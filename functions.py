@@ -29,6 +29,7 @@ currentCity = currentLocation[0].lower()
 currentCountry = requests.get(
     getWeatherUrl + "&query=" + currentCity).json()['location']['country'].lower()
 
+# put data files in dirve and open with url so it dosent crash
 cities = open("data/cities.txt", "r", encoding='utf8').read().splitlines()
 countries = open("data/countries.txt", "r",
                  encoding='utf8').read().splitlines()
@@ -98,23 +99,42 @@ def summarize(article):
     numSentences = article.count(sentence_break)
     # regex - regular expression
     article = re.sub("[\(\[].*?[\)\]]", "", article)
-    if numSentences <= 5:
+    if numSentences <= 4:
         return article
     else:
         sentences = article.split(". ")
-        for i in range(3):
+        for i in range(2):
             final += sentences[i] + ". "
     return final
 
 def getInfo(command):
-    keywords = ""
-    for i in command:
-        keywords += i
-        keywords + " "
-    return summarize(getInfoHelper(keywords))
-
+    if ("who" in command):
+        for word in command:
+            if (word == "who"):
+                command = command[command.index("who") + 2:]
+        keywords = ""
+        for i in command:
+            keywords += i
+            keywords += " "
+        return summarize(wikipedia.summary(keywords))
+    if ("")
 def getInfoHelper(keywords):
     return(wikipedia.summary(keywords))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

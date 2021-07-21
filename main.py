@@ -5,6 +5,7 @@ from functions import easterEggs
 
 from audioInit import speak, getAudio
 
+import tkinter as tk
 '''
 PUrpose of this main file is to initialize and call the
 need instantiation for this program. Afterwards it will run a loop
@@ -16,6 +17,8 @@ and paired with perfect logging.
 Mkae another file for running the voice logic and settings.
 Basically extrapolate all of your functions into as many pieces.
 '''
+# find why the package not workinhg - use tkinter
+
 
 def main():
     speak(getCommand(getAudio()))
@@ -34,5 +37,4 @@ def getCommand(command):
     return getInfo(command)
 
 if __name__ == "__main__":
-    # loadKeys()
     main()
