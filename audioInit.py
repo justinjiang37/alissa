@@ -11,8 +11,9 @@ engine.setProperty('rate', newVoiceRate)
 
 # speak text
 def speak(text):
-    engine.say(text)
-    engine.runAndWait()
+    if (text != None):
+        engine.say(text)
+        engine.runAndWait()
 
 # recognizes mic input
 def getAudio():

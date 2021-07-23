@@ -26,7 +26,6 @@ def main():
 
 def getCommand(command):
     command = command.lower().split()
-
     if "weather" in command:
         return getWeather(command)
 

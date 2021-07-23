@@ -141,26 +141,26 @@ def getInfo(command):
 def getInfoHelper(keywords):
     return(wikipedia.summary(keywords))
 
+def ifNum(i):
+    try:
+        int(i)
+    except ValueError:
+        return False
+    return True
+
 def setTimer(command):
-    units = [
-        "zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
-        "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
-        "sixteen", "seventeen", "eighteen", "nineteen",
-    ]
-
-    tens = ["", "", "twenty", "thirty", "forty",
-            "fifty", "sixty", "seventy", "eighty", "ninety"]
-
-    scales = ["hundred", "thousand", "million", "billion", "trillion"]
+    print(command)
     words = ["hour", "hours", "minutes","minute","second", "seconds"]
-    for i in command:
-        if i not in units or i not in tens or i not in scales or i not in words :
-            command.remove(i)
     timeString = ""
     for i in command:
-        timeString += i
-        timeString += " "
-
+        if i in words or ifNum(i) or i == "one":
+            print(i)
+            if (i == "one"):
+                timeString += "1 "
+            else :
+                timeString += i
+                timeString += " "
+    print(timeString)
     hours = 0
     minutes = 0
     seconds = 0
@@ -184,12 +184,16 @@ def setTimer(command):
     if "second" in timeString:
         seconds = timeString[:timeString.find("second")]
         timeString = timeString[timeString.find("second") + 6:]
+    print(hours)
+    print(minutes)
+    print(seconds)
 
     finalTimeSeconds = 0
-    finalTimeSeconds += w2n.word_to_num(hours) * 3600
-    finalTimeSeconds += w2n.word_to_num(minutes) * 60
-    finalTimeSeconds += w2n.word_to_num(seconds)
+    finalTimeSeconds += int(hours) * 3600
+    finalTimeSeconds += int(minutes) * 60
+    finalTimeSeconds += int(seconds)
 
+    speak("Ok starting your timer for " + str(hours) + " hours " + str(minutes) + " minutes " + str(seconds) + " seconds " +  "now")
     for i in range (finalTimeSeconds):
         time.sleep(1)
     speak("times up ")
