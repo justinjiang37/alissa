@@ -199,10 +199,12 @@ def setTimer(command):
     speak("times up ")
 
 
-# def greeting():
-#     # get name and remember - good morning smth
+def greeting():
+    # get name and remember - good morning smth
+    pass
 
 def easterEggs(command):
+    print(command)
     # dad
     if "i'm" in command:
         dad = "Hi "
@@ -213,9 +215,9 @@ def easterEggs(command):
         return dad
     # love
     if "i" in command and "love" in command and "you" in command:
-        i = 0
+        i = random.randint(0, 4)
         if i == 0:
-            return "I love you too!   mwah"
+            return "I love you too!   mwah!!!"
         if i == 1:
             return "Thanks! I think you're pretty cute too"
         if i == 2:
@@ -223,14 +225,13 @@ def easterEggs(command):
         if i == 3:
             return "Sorry I already have a boy friend"
         if i == 4:
-            return "Nah im out of your league"
+            return "Nahhhhhh, im out of your league"
     if "who" in command and "your" in command and "boyfriend" in command:
         return "Justin Jiang is my long eternal love"
     # joke
     if "tell" in command and "joke" in command:
         return "Why did the chicken cross the road! to get to the other side! haha"
     # CIA
-    # print("hi")
-    # if "CIA" in command and "listening" in command:
-    #     print("hi")
-    #     return "The CIA is always listening! Always"
+    if "CIA" in command and "listening" in command:
+        print("hi")
+        return "The CIA is always listening! Always"

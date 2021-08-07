@@ -33,7 +33,7 @@ def getCommand(command):
         return getTime(command)
     if "timer" in command:
         return setTimer(command)
-    # easterEggs(command)
+    return easterEggs(command)
 
     return getInfo(command)
 

@@ -11,7 +11,11 @@ engine.setProperty('rate', newVoiceRate)
 
 # speak text
 def speak(text):
-    if (text != None):
+    if (text == None):
+        engine.say("sorry, I didnt catch that")
+        engine.runAndWait()
+
+    else:
         engine.say(text)
         engine.runAndWait()
 
